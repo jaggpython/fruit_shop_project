@@ -58,6 +58,65 @@
 </div>
 
 
+<!-- PAGINATION -->
+{% if products.paginator.num_pages > 1 %}
+<p class="text-center text-muted mb-2">
+    Page {{ products.number }} of {{ products.paginator.num_pages }}
+</p>
+
+<nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center">
+
+        <!-- Previous -->
+        {% if products.has_previous %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ products.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
+                &laquo;
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&laquo;</span>
+        </li>
+        {% endif %}
+
+        <!-- Page Numbers -->
+        {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num >= products.number|add:'-2' and num <= products.number|add:'2' %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}">
+                    {{ num }}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Next -->
+        {% if products.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ products.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
+                &raquo;
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&raquo;</span>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+
+
+
 <!-- CUSTOM STYLES -->
 <style>
 .product-card {

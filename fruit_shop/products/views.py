@@ -61,18 +61,25 @@ def logout_view(request):
     return redirect('login')
 
 def product_list(request):
-    # Get the search query from GET parameters
     query = request.GET.get('q', '')
-    
-    if query:
-        # Filter products by name or description containing the query (case-insensitive)
-        products = Product.objects.filter(
-            Q(name__icontains=query) | Q(description__icontains=query)
-        )
-    else:
-        products = Product.objects.all()
+    product_qs = Product.objects.all().order_by('-id')
 
-    return render(request, 'products/product_list.html', {'products': products, 'query': query})
+    if query:
+        product_qs = product_qs.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    paginator = Paginator(product_qs, 8)  # 🔴 use SMALL number for testing
+    page_number = request.GET.get('page')
+
+    products = paginator.get_page(page_number)
+
+    return render(request, 'products/product_list.html', {
+        'products': products,
+        'query': query
+    })
+
 
 
 def product_detail(request, id):
