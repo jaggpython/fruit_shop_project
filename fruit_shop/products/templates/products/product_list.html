@@ -1,0 +1,102 @@
+{% extends 'products/base.html' %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="text-center mb-5">
+    <h2 class="fw-bold text-success">Fresh Fruits Collection</h2>
+    <p class="text-muted">
+        Handpicked, organic & farm-fresh fruits delivered to your door
+    </p>
+</div>
+
+<!-- PRODUCTS GRID -->
+<div class="row g-4">
+    {% for product in products %}
+    <div class="col-lg-3 col-md-6">
+        <div class="card h-100 border-0 shadow-sm product-card">
+
+            <!-- PRODUCT IMAGE -->
+            <div class="product-image-wrapper">
+                <img src="{{ product.image.url }}"
+                     class="img-fluid product-image"
+                     alt="{{ product.name }}">
+
+                <span class="badge bg-success position-absolute top-0 start-0 m-2">
+                    Fresh
+                </span>
+            </div>
+
+            <!-- PRODUCT DETAILS -->
+            <div class="card-body text-center">
+                <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+
+                <p class="text-success fw-bold fs-5 mb-2">
+                    ₹{{ product.price }}
+                </p>
+
+                <p class="text-muted small mb-0">
+                    Quality assured · Best price
+                </p>
+            </div>
+
+            <!-- ACTION BUTTON -->
+            <div class="card-footer bg-white border-0 text-center pb-4">
+                <a href="{% url 'product_detail' product.id %}"
+                   class="btn btn-outline-success px-4">
+                    View Details
+                </a>
+            </div>
+
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+        <p class="text-muted">No products available</p>
+    </div>
+    {% endfor %}
+</div>
+
+
+<!-- CUSTOM STYLES -->
+<style>
+.product-card {
+    transition: all 0.3s ease;
+    background: #fff;
+    border-radius: 0.5rem;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+
+/* IMAGE WRAPPER */
+.product-image-wrapper {
+    height: 220px;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+/* IMAGE FIT + CLARITY */
+.product-image {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;   /* SHOW FULL IMAGE */
+    padding: 12px;
+    transition: transform 0.3s ease;
+}
+
+/* SUBTLE ZOOM */
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+</style>
+
+{% endblock %}

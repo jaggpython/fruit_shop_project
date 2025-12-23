@@ -1,0 +1,57 @@
+{% extends 'products/base.html' %}
+
+{% block content %}
+
+<div class="row g-5 align-items-center">
+
+    <!-- PRODUCT IMAGE -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <img src="{{ product.image.url }}"
+                 class="img-fluid rounded"
+                 alt="{{ product.name }}"
+                 style="object-fit: cover;">
+        </div>
+    </div>
+
+    <!-- PRODUCT INFO -->
+<div class="col-lg-6">
+    <h2 class="fw-bold mb-3">{{ product.name }}</h2>
+
+    <!-- HTML DESCRIPTION -->
+    <div class="text-muted mb-3">
+        {{ product.description|safe }}
+    </div>
+
+    <!-- PRICE -->
+    <h3 class="text-success fw-bold mb-4">
+        ₹{{ product.price }}
+        <small class="text-muted fs-6"> / kg</small>
+    </h3>
+
+    <!-- TRUST BADGES -->
+    <div class="d-flex gap-3 mb-4">
+        <span class="badge bg-light text-success border">🍃 100% Organic</span>
+        <span class="badge bg-light text-success border">🚚 Free Delivery</span>
+        <span class="badge bg-light text-success border">⭐ Top Quality</span>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="d-flex gap-3">
+        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg px-4">
+            <i class="bi bi-cart-plus"></i> Add to Cart
+        </a>
+        <a href="/" class="btn btn-outline-secondary btn-lg px-4">Continue Shopping</a>
+    </div>
+
+    <!-- EXTRA INFO -->
+    <div class="mt-4 text-muted small">
+        ✔ Cash on Delivery available <br>
+        ✔ Same-day delivery in select locations
+    </div>
+</div>
+
+
+</div>
+
+{% endblock %}
