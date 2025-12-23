@@ -8,6 +8,32 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 
+def increase_quantity(request, id):
+    cart = request.session.get('cart', {})
+    product_id = str(id)
+
+    if product_id in cart:
+        cart[product_id] += 1
+    else:
+        cart[product_id] = 1
+
+    request.session['cart'] = cart
+    return redirect('cart')
+
+
+def decrease_quantity(request, id):
+    cart = request.session.get('cart', {})
+    product_id = str(id)
+
+    if product_id in cart:
+        if cart[product_id] > 1:
+            cart[product_id] -= 1
+        else:
+            del cart[product_id]  # remove item if quantity becomes 0
+
+    request.session['cart'] = cart
+    return redirect('cart')
+
 @login_required
 def settings_view(request):
     if not request.user.is_superuser:

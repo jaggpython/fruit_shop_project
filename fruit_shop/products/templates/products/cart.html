@@ -33,8 +33,21 @@
                                 <strong>{{ item.product.name }}</strong>
                             </td>
 
+                            <!-- QUANTITY CONTROLS -->
                             <td class="text-center">
-                                {{ item.quantity }}
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <a href="{% url 'decrease_quantity' item.product.id %}"
+                                       class="btn btn-sm btn-outline-secondary fw-bold">
+                                        −
+                                    </a>
+
+                                    <span class="fw-semibold">{{ item.quantity }}</span>
+
+                                    <a href="{% url 'increase_quantity' item.product.id %}"
+                                       class="btn btn-sm btn-outline-success fw-bold">
+                                        +
+                                    </a>
+                                </div>
                             </td>
 
                             <td class="text-end fw-semibold">
