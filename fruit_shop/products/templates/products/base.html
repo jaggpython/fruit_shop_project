@@ -119,21 +119,6 @@
             }
         }
 
-        /* .brand-highlight {
-    font-weight: 800;
-    font-size: 1.6rem;
-    letter-spacing: 1px;
-    background: linear-gradient(45deg, #fff, #d4f8e8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 8px rgba(255,255,255,0.4);
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
-}
-
-.brand-highlight:hover {
-    transform: scale(1.05);
-    text-shadow: 0 4px 15px rgba(255,255,255,0.7);
-} */
         .brand-badge {
             background: #ffffff;
             color: #198754;
@@ -157,9 +142,6 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm sticky-top">
         <div class="container">
-            <!-- <a class="navbar-brand brand-highlight" href="/">
-            🍎 Fruit Shop
-        </a> -->
             <a class="navbar-brand" href="/">
                 <span class="brand-badge">🍎 Fruit Shop</span>
             </a>
@@ -171,6 +153,22 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item me-3">
+                        {% if request.user.is_superuser %}
+                        <a class="nav-link text-white fw-semibold" href="{% url 'settings' %}">
+                            <i class="bi bi-gear-fill"></i> Settings
+                        </a>
+                        {% else %}
+                        <span class="nav-link text-white-50 fw-semibold disabled" style="cursor: not-allowed;"
+                            title="Admin access only">
+                            <i class="bi bi-gear"></i> Settings
+                        </span>
+                        {% endif %}
+                    </li>
+                    {% endif %}
+
+
 
                     <li class="nav-item me-3">
                         <a class="nav-link text-white fw-semibold" href="/">

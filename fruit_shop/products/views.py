@@ -5,6 +5,69 @@ from django.db.models import Q  # For complex queries
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def settings_view(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Unauthorized access.")
+        return redirect('product_list')
+
+    products = Product.objects.all().order_by('-id')
+
+    if request.method == "POST":
+        Product.objects.create(
+            name=request.POST.get('name'),
+            price=request.POST.get('price'),
+            description=request.POST.get('description'),
+            image=request.FILES.get('image')
+        )
+        messages.success(request, "Product added successfully!")
+        return redirect('settings')
+
+    return render(request, 'products/settings.html', {'products': products})
+
+
+@login_required
+def update_product(request, id):
+    if not request.user.is_superuser:
+        messages.error(request, "Unauthorized access.")
+        return redirect('product_list')
+
+    product = get_object_or_404(Product, id=id)
+
+    if request.method == "POST":
+        product.name = request.POST.get('name')
+        product.price = request.POST.get('price')
+        product.description = request.POST.get('description')
+
+        if request.FILES.get('image'):
+            product.image = request.FILES.get('image')
+
+        product.save()
+        messages.success(request, "Product updated successfully!")
+        return redirect('settings')
+
+    return render(request, 'products/update_product.html', {'product': product})
+
+
+@login_required
+def delete_product(request, id):
+    if not request.user.is_superuser:
+        messages.error(request, "Unauthorized access.")
+        return redirect('product_list')
+
+    product = get_object_or_404(Product, id=id)
+
+    if request.method == "POST":
+        product.delete()
+        messages.success(request, "Product deleted successfully!")
+        return redirect('settings')
+
+    return render(request, 'products/delete_product.html', {'product': product})
+
+
 
 # SIGNUP VIEW
 def signup_view(request):
