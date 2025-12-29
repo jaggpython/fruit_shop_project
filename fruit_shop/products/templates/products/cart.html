@@ -20,15 +20,27 @@
                 <table class="table align-middle mb-0">
                     <thead class="table-light">
                         <tr>
+                            <th>Image</th>
                             <th>Product</th>
                             <th class="text-center">Quantity</th>
                             <th class="text-end">Subtotal</th>
                             <th class="text-end">Action</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         {% for item in items %}
                         <tr>
+                            <!-- PRODUCT IMAGE -->
+                            <td>
+                                <img src="{{ item.product.image.url }}"
+                                     width="60"
+                                     height="60"
+                                     class="rounded"
+                                     style="object-fit: cover;">
+                            </td>
+
+                            <!-- PRODUCT NAME -->
                             <td>
                                 <strong>{{ item.product.name }}</strong>
                             </td>
@@ -50,10 +62,12 @@
                                 </div>
                             </td>
 
+                            <!-- SUBTOTAL -->
                             <td class="text-end fw-semibold">
                                 ₹{{ item.subtotal }}
                             </td>
 
+                            <!-- REMOVE ACTION -->
                             <td class="text-end">
                                 <a href="{% url 'remove_from_cart' item.product.id %}"
                                    class="btn btn-sm btn-outline-danger"
